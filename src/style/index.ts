@@ -23,6 +23,7 @@ const STYLES ={
         elevation: 2,
         marginBottom: 16
     },
+    
     textButton : {
         textAlign: 'center',
         textTransform: 'capitalize',
@@ -30,6 +31,13 @@ const STYLES ={
         color: '#0087ff',
         width: '100%',
         fontSize: 16,
+    },
+
+    emptyListMessage: {
+        textAlign: 'center',
+        color: '#999',
+        fontSize: 16,
+        paddingTop: 40
     }
 }
 export { STYLES, COLORS };
