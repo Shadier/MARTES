@@ -1,20 +1,22 @@
 import React, { Component } from 'react'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, TouchableOpacity } from 'react-native'
 import Icon from 'react-native-vector-icons/Entypo'
 import { Card, CardItem, Text, Thumbnail, View } from 'native-base'
 import ActionSheet from 'react-native-action-sheet'
 import { COLORS } from '../style/index'
 import menuOption from '../constants/actionSheet-constants'
+import { Function } from '@babel/types'
 
 interface ProfileCardProps {
-  id: string,
-  first_name: string,
-  last_name: string,
-  profile_picture: string,
-  number: number,
-  type: string,
-  role: string //'Admin','Teacher','Sponsor','Sponsee',,
+  id: string
+  first_name: string
+  last_name: string
+  profile_picture: string
+  number: number
+  type: string
+  role: string //'Admin''Teacher''Sponsor''Sponsee'
   last_signed: string
+  onClick : any
 }
 
 export default class ProfileCardComponent extends Component<ProfileCardProps, ProfileCardProps> {
@@ -62,8 +64,9 @@ export default class ProfileCardComponent extends Component<ProfileCardProps, Pr
   render() {
     const profile = this.props
     return (
-      <Card>
-        <CardItem>
+      <TouchableOpacity onPress={this.props.onClick}>
+      <Card >
+        <CardItem >
           <View style={styles.container}>
             <Thumbnail source={{ uri: profile.profile_picture }} />
           </View>
@@ -104,6 +107,7 @@ export default class ProfileCardComponent extends Component<ProfileCardProps, Pr
           </View>
         </CardItem>
       </Card>
+      </TouchableOpacity>
     )
   }
 }

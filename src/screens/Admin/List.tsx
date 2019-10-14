@@ -1,14 +1,17 @@
 import React, { Component } from 'react'
 import { FlatList } from 'react-native'
-import ProfileCardComponent from '../components/ProfileCardComponent';
-import SearchBarComponents from '../components/SearchBarComponent';
-import { Container, Content, Root,  Button, Text,  ActionSheet } from 'native-base';
-import { STYLES } from '../style';
+import ProfileCardComponent from '../../components/ProfileCardComponent'
+import SearchBarComponents from '../../components/SearchBarComponent'
+import PTRView from 'react-native-pull-to-refresh'
+import { Container, Content, Root,  Button, Text,  ActionSheet } from 'native-base'
+import { STYLES } from '../../style';
 
-export default class Admins extends Component {
-  static navigationOptions = {
-    title: 'Admins',
-  }
+
+interface ListProps {
+  navigation : any
+}
+export default class List extends Component<ListProps, {}> {
+  
 
   state = {
     adminsList: [
@@ -45,8 +48,20 @@ export default class Admins extends Component {
     ]
   }
 
-  mono = (text : string) => {
-    console.log(text)
+  filterList = (text : string) => {
+    if(text.length > 1)
+      console.log(text)
+    if(text.length == 0)
+      this.refreshList()
+  }
+
+  refreshList = () => {
+    console.log('refresh list')
+  } 
+
+  goToOthersProfile = (name : string) => {
+    const { navigate } = this.props.navigation
+    navigate('othersProfile', {name: name})
   }
 
   renderList = () => {
@@ -61,6 +76,7 @@ export default class Admins extends Component {
           role = { p.role }
           profile_picture = { p.profile_picture }
           last_signed = { p.last_signed }
+          onClick = {() => this.goToOthersProfile(p.first_name) }
         />
       );
     });
@@ -69,20 +85,23 @@ export default class Admins extends Component {
 
   render() {
     return (
-      <Root>
-        <Container>
-          <Content padder>
-          <SearchBarComponents 
-            callback={this.mono}
-          />
-          <Button style={STYLES.button}>
-            <Text style={STYLES.textButton}>Create New</Text>
-          </Button>
-          {this.renderList()}
-          </Content>
-        </Container>
-      </Root>
-
+      <PTRView onRefresh={this.refreshList}>
+        <Root>
+          <Container>
+            <Content padder>
+            <SearchBarComponents 
+              callback={this.filterList}
+            />
+            <Button style={STYLES.button}>
+              <Text style={STYLES.textButton}>
+                Create New
+              </Text>
+            </Button>
+            {this.renderList()}
+            </Content>
+          </Container>
+        </Root>
+      </PTRView>
     )
   }
 }
