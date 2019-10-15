@@ -4,17 +4,15 @@ import { TeacherListType } from '../types/teacher-list-types';
 import { teacherListConstants } from '../constants/teacher-list-constants';
 
 export interface TeacherListState {
-    loading: boolean;
-    //example: AdminModel;
-    example: Array<any>
-    error: any;
+    tloading: boolean;
+    teachers: Array<any>
+    terror: any;
 }
 
 const initialState: TeacherListState = {
-    loading: false,
-    //example: {} as AdminModel,
-    example: {} as Array<any>,
-    error: undefined
+    tloading: false,
+    teachers: {} as Array<any>,
+    terror: undefined
 }
 
 export const teacherListReducer: Reducer<TeacherListState, TeacherListType> = (state = initialState, action: TeacherListType) => {
@@ -22,20 +20,20 @@ export const teacherListReducer: Reducer<TeacherListState, TeacherListType> = (s
         case teacherListConstants.TEACHER_LIST_BEGIN:
             return {
                 ...state,
-                loading: true,
-                error: undefined
+                tloading: true,
+                terror: undefined
             }
         case teacherListConstants.TEACHER_LIST_SUCCESS:
             return {
                 ...state,
-                loading: false,
-                example: action.data
+                tloading: false,
+                teachers: action.data
             }
         case teacherListConstants.TEACHER_LIST_ERROR:
             return {
                 ...state,
-                loading: false,
-                error: action.error
+                tloading: false,
+                terror: action.error
             }
         default: 
             return initialState;

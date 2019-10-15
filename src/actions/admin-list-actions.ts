@@ -1,6 +1,5 @@
 import { getAdmins, searchAdmin } from '../api/providers/admin';
 import { Dispatch } from 'redux';
-import AdminModel from '../models/admin-model';
 import * as types from '../types/admin-list-types';
 import { adminListConstants } from '../constants/admin-list-constants';
 

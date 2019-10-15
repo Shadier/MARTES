@@ -5,60 +5,52 @@ import PTRView from 'react-native-pull-to-refresh'
 import EmptyListMessage from '../../components/EmptyListMessageComponent'
 import { Container, Content, Root,  Button, Text } from 'native-base'
 import { connect } from 'react-redux'
-import { teachers, searchTeachers } from '../../actions/teacher-list-actions'
 import { STYLES } from '../../style';
-//import AdminModel from '../../models/admin-model'
+import { searchTeachers, teachers } from '../../actions/teacher-list-actions'
+
 
 interface ListProps {
   navigation : any,
   teachers: () => void,
   loading: boolean,
   error: any,
-  //list: Array<AdminModel>
-  list: Array<any>
+  list: Array<any>,
 
   searchTeachers: (search: string) => void,
   loadingSearch: boolean,
   errorSearch: any,
-  //list: Array<AdminModel>
   listSearch: Array<any>,
+
 }
 
 interface ListState {
-  filterAcvive: boolean,
-  teacherList: Array<any>
+  filterActive: boolean,
+  teachersList: Array<any>
 }
 
 export class List extends Component<ListProps, ListState> {
 
   state = {
-    filterAcvive: false,
-    teacherList: []
+    filterActive: false,
+    teachersList: []
   }
-
+  
    componentDidMount = () => {
-    console.log('didMouunt')
     this.props.teachers()
-    console.log('esta es mi super lista' + this.props.list)
    }
-
-  //  componentDidUpdate = () => {
-  //   console.log('qwertyuiop' + JSON.stringify(this.props.list))
-  //  }
 
   filterList = (text : string) => {
     if(text.length > 1){
       console.log(text)
       this.setState({
-        filterAcvive: true
+        filterActive: true
       });
       this.props.searchTeachers(text)
-      //this.props.list = this
     }     
     if(text.length == 0){
       this.refreshList()
       this.setState({
-        filterAcvive: false
+        filterActive: false
       });
     }    
   }
@@ -67,7 +59,7 @@ export class List extends Component<ListProps, ListState> {
     console.log('refresh list')
     this.props.teachers()
     this.setState({
-      filterAcvive: false
+      filterActive: false
     });
   } 
 
@@ -77,28 +69,28 @@ export class List extends Component<ListProps, ListState> {
   }
 
   renderList = () => {
-    let textMessage = this.state.filterAcvive ?  'No matching Administrators' : 'There are no Admins'
-    let adminsList = this.state.filterAcvive  ? this.props.listSearch : this.props.list
-    
-    if (adminsList.length == 0) {
+    let textMessage = this.state.filterActive ?  'No matching Teachers' : 'There are no Teachers'
+    let teachersList = this.state.filterActive  ? this.props.listSearch : this.props.list
+
+    if (teachersList.length == 0) {
       return (
         <EmptyListMessage
           text = {textMessage}
         />
       )
     }
-    const list = adminsList.map( p => {
+    const list = teachersList.map( teacher => {
       return (
         <ProfileCardComponent
-          id = { p.id }
-          first_name = { p.first_name }
-          last_name ={ p.last_name }
-          number = { p.numberSponsees }
+          id = { teacher.id }
+          first_name = { teacher.first_name }
+          last_name ={ teacher.last_name }
+          number = { teacher.numSponsees }
           type =  'sponsees'
           role = 'teacher'
-          profile_picture = { p.profile_picture }
-          last_signed = { p.last_signed }
-          onClick = {() => this.goToOthersProfile(p.first_name) }
+          profile_picture = { teacher.profile_picture }
+          last_signed = { teacher.last_signed }
+          onClick = {() => this.goToOthersProfile(teacher.first_name) }
         />
       );
     });
@@ -120,7 +112,7 @@ export class List extends Component<ListProps, ListState> {
               </Text>
             </Button>
             <Text>{JSON.stringify(this.props.list)}</Text>
-            {this.renderList()}
+            {/*this.renderList()*/}
             </Content>
           </Container>
         </Root>
@@ -130,22 +122,21 @@ export class List extends Component<ListProps, ListState> {
 }
 
 const mapStateToProps = (state: any) => {
-  console.log(state)
   return {
-      loading: state.teacherListReducer.loading,
-      list: state.teacherListReducer.example,
-      error: state.teacherListReducer.error,
+      loading: state.teacherListReducer.tloading,
+      list: state.teacherListReducer.teachers,
+      error: state.teacherListReducer.terror,
 
-      loadingSearch: state.teacherSearchReducer.loading,
-      listSearch: state.teacherSearchReducer.example,
-      errorSearch: state.teacherSearchReducer.error
+      loadingSearch: state.teacherSearchReducer.tloading,
+      listSearch: state.teacherSearchReducer.teachers,
+      errorSearch: state.teacherSearchReducer.terror
   }
 }
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    teachers: () => dispatch(teachers()),
     searchTeachers: ( search: string) => dispatch(searchTeachers(search)),
+    teachers: () => dispatch(teachers())
   }
 }
 

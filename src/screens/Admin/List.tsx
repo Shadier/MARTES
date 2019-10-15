@@ -7,8 +7,6 @@ import { Container, Content, Root,  Button, Text } from 'native-base'
 import { connect } from 'react-redux'
 import { admins, searchAdmins } from '../../actions/admin-list-actions'
 import { STYLES } from '../../style';
-//import AdminModel from '../../models/admin-model'
-//import Array from 'react-native'
 
 
 interface ListProps {
@@ -16,87 +14,43 @@ interface ListProps {
   admins: () => void,
   loading: boolean,
   error: any,
-  //list: Array<AdminModel>
   list: Array<any>,
 
   searchAdmins: (search: string) => void,
   loadingSearch: boolean,
   errorSearch: any,
-  //list: Array<AdminModel>
   listSearch: Array<any>,
 
 }
 
 interface ListState {
-  filterAcvive: boolean,
+  filterActive: boolean,
   adminsList: Array<any>
 }
 
 export class List extends Component<ListProps, ListState> {
 
   state = {
-    filterAcvive: false,
+    filterActive: false,
     adminsList: []
   }
   
    componentDidMount = () => {
-     console.log('didMouunt')
     this.props.admins()
-    console.log('esta es mi super lista' + this.props.list)
    }
-
-  //  componentDidUpdate = () => {
-  //   console.log('qwertyuiop' + JSON.stringify(this.props.list))
-  //  }
-
-  // state = {
-  //   adminsList: [
-  //     {  
-  //       id: 'ef488930-eae7-11e9-81b4-2a2ae2dbcce4',
-  //       first_name: 'Ana Maria ',
-  //       last_name: 'Angulo',
-  //       number: 22,
-  //       type: 'Sponsees',
-  //       role: 'Admin',
-  //       profile_picture: 'https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
-  //       last_signed: 'Active: 10.07.19 @ 6pm'
-  //     },
-  //     { 
-  //       id: ' ef488b9c-eae7-11e9-81b4-2a2ae2dbcce4',
-  //       first_name: 'Miguel',
-  //       last_name: 'Kane',
-  //       number: 22,
-  //       type: 'Sponsees',
-  //       role: 'Admin',
-  //       profile_picture: 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
-  //       last_signed: '2 minutes ago'
-  //     },
-  //     { 
-  //       id: 'ef488cf0-eae7-11e9-81b4-2a2ae2dbcce4',
-  //       first_name: 'Lionel',
-  //       last_name: 'Messi',
-  //       number: 22,
-  //       type: 'Sponsees',
-  //       role: 'Admin',
-  //       profile_picture: 'https://engineering.unl.edu/images/staff/Kayla_Person-small.jpg',
-  //       last_signed: 'Active: 10.07.19 @ 2pm'
-  //     },
-  //   ]
-  // }
 
   filterList = (text : string) => {
     if(text.length > 1){
       console.log(text)
       this.setState({
-        filterAcvive: true
+        filterActive: true
       });
       this.props.searchAdmins(text)
-      //this.props.list = this
     }     
     if(text.length == 0){
       this.refreshList()
       this.setState({
-        filterAcvive: false
+        filterActive: false
       });
     }    
   }
@@ -105,7 +59,7 @@ export class List extends Component<ListProps, ListState> {
     console.log('refresh list')
     this.props.admins()
     this.setState({
-      filterAcvive: false
+      filterActive: false
     });
   } 
 
@@ -115,8 +69,8 @@ export class List extends Component<ListProps, ListState> {
   }
 
   renderList = () => {
-    let textMessage = this.state.filterAcvive ?  'No matching Administrators' : 'There are no Admins'
-    let adminsList = this.state.filterAcvive  ? this.props.listSearch : this.props.list
+    let textMessage = this.state.filterActive ?  'No matching Administrators' : 'There are no Admins'
+    let adminsList = this.state.filterActive  ? this.props.listSearch : this.props.list
 
     if (adminsList.length == 0) {
       return (
@@ -131,7 +85,7 @@ export class List extends Component<ListProps, ListState> {
           id = { p.id }
           first_name = { p.first_name }
           last_name ={ p.last_name }
-          number = { p.numberSponsees }
+          number = { p.numSponsees }
           type =  'sponsees'
           role = 'admin'
           profile_picture = { p.profile_picture }
@@ -158,7 +112,7 @@ export class List extends Component<ListProps, ListState> {
               </Text>
             </Button>
             <Text>{JSON.stringify(this.props.list)}</Text>
-            {this.renderList()}
+            {() => this.renderList()}
             </Content>
           </Container>
         </Root>
@@ -168,15 +122,14 @@ export class List extends Component<ListProps, ListState> {
 }
 
 const mapStateToProps = (state: any) => {
-  console.log(state)
   return {
-      loading: state.adminListReducer.loading,
-      list: state.adminListReducer.example,
-      error: state.adminListReducer.error,
+      loading: state.adminListReducer.aloading,
+      list: state.adminListReducer.admins,
+      error: state.adminListReducer.aerror,
 
-      loadingSearch: state.adminSearchReducer.loading,
-      listSearch: state.adminSearchReducer.example,
-      errorSearch: state.adminSearchReducer.error
+      loadingSearch: state.adminSearchReducer.aloading,
+      listSearch: state.adminSearchReducer.admins,
+      errorSearch: state.adminSearchReducer.aerror
   }
 }
 

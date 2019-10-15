@@ -4,17 +4,17 @@ import { AdminListType } from '../types/admin-list-types';
 import { adminListConstants } from '../constants/admin-list-constants';
 
 export interface AdminListState {
-    loading: boolean;
-    //example: AdminModel;
-    example: Array<any>
-    error: any;
+    aloading: boolean;
+    //admins: AdminModel;
+    admins: Array<any>
+    aerror: any;
 }
 
 const initialState: AdminListState = {
-    loading: false,
-    //example: {} as AdminModel,
-    example: {} as Array<any>,
-    error: undefined
+    aloading: false,
+    //admins: {} as AdminModel,
+    admins: {} as Array<any>,
+    aerror: undefined
 }
 
 export const adminSearchReducer: Reducer<AdminListState, AdminListType> = (state = initialState, action: AdminListType) => {
@@ -22,20 +22,20 @@ export const adminSearchReducer: Reducer<AdminListState, AdminListType> = (state
         case adminListConstants.ADMIN_SEARCH_BEGIN:
             return {
                 ...state,
-                loading: true,
-                error: undefined
+                aloading: true,
+                aerror: undefined
             }
         case adminListConstants.ADMIN_SEARCH_SUCCESS:
             return {
                 ...state,
-                loading: false,
-                example: action.data
+                aloading: false,
+                admins: action.data
             }
         case adminListConstants.ADMIN_SEARCH_ERROR:
             return {
                 ...state,
-                loading: false,
-                error: action.error
+                aloading: false,
+                aerror: action.error
             }
         default: 
             return initialState;

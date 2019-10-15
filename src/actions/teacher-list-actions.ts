@@ -1,9 +1,7 @@
-import { getTeacher, searchTeacher} from '../api/providers/teacher';
+import { getTeachers, searchTeacher} from '../api/providers/teacher';
 import { Dispatch } from 'redux';
-//import AdminModel from '../models/admin-model';
 import * as types from '../types/teacher-list-types';
 import { teacherListConstants } from '../constants/teacher-list-constants';
-import { string } from 'prop-types';
 
 const getTeachersBegin = (): types.IActionTeacherListBegin => {
     return {
@@ -28,7 +26,7 @@ const getTeachersError = (error: any): types.IActionTeacherListError => {
 export const teachers = () => 
     (dispatch: Dispatch) => {
         dispatch(getTeachersBegin());
-        getTeacher.getAllTeacher()
+        getTeachers.getAllTeachers()
             .then(response => {
                 dispatch(getTeachersSuccess(response.data));
             })
