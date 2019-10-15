@@ -4,9 +4,9 @@ import ENV from 'react-native-config';
 const getAllAdmins = () => {
     console.log('API')
     //return axios.get(`${ENV.API_URL}/admin`)
-    return axios.get('http://192.168.0.37:3000/api/admins') // //Ruta de admins
+    return axios.get('http://10.16.0.63:3000/api/admins') // //Ruta de admins
         .then(response => {
-            console.log(response)
+            console.log('----------'+response)
             return response;           
         })
         .catch(err => {
@@ -24,9 +24,9 @@ export const getAdmins = {
 const searchAdmins = (search: string) => {
     console.log('API')
     //return axios.get(`${ENV.API_URL}/admin-search/:search`)
-    return axios.get('http://192.168.0.37:3000/api/admins/filter/'+search) // //Ruta de admins
+    return axios.get('http://10.16.0.63:3000/api/admins/filter/'+search) // //Ruta de admins
         .then(response => {
-            console.log(response)
+            console.log('00000000000000'+response)
             return response;           
         })
         .catch(err => {

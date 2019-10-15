@@ -4,7 +4,7 @@ import ENV from 'react-native-config';
 const getAllTeachers = () => {
     console.log('API')
     //return axios.get(`${ENV.API_URL}/admin`)   
-    return axios.get('http://192.168.0.37:3000/api/teachers') //Ruta de teachers
+    return axios.get('http://10.16.0.63:3000/api/teachers') //Ruta de teachers
         .then(response => {
             console.log(response)
             return response;           
@@ -25,7 +25,7 @@ export const getTeachers = {
 const searchTeachers = (search: string) => {
     console.log('API')
     //return axios.get(`${ENV.API_URL}/admin-search/:search`)
-    return axios.get('http://192.168.0.37:3000/api/teachers/filter/'+search) // //Ruta de admins
+    return axios.get('http://10.16.0.63:3000/api/teachers/filter/'+search) // //Ruta de admins
         .then(response => {
             console.log(response)
             return response;           

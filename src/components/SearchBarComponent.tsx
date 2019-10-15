@@ -4,7 +4,8 @@ import { Item, Input, Icon, View } from 'native-base'
 import { COLORS } from '../style/index'
 
 interface SearchBarProps {
-  callback: any
+  callback: any,
+  setText: string
 }
 interface SearchBarState {
   borderColor: string,
@@ -32,7 +33,8 @@ export default class SearchBarComponent extends Component<SearchBarProps, Search
             onFocus={this.onFocus}
             placeholder='Search...'
             placeholderTextColor={COLORS.lightGray}
-            style={styles.input} />
+            style={styles.input}
+            value={this.props.setText} />
           <Icon name='ios-search' style={[styles.icon, {color: this.state.borderColor}]}  />
         </Item>
       </View>
