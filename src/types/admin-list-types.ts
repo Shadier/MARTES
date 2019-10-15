@@ -17,4 +17,21 @@ export interface IActionAdminListError extends Action {
     error: any
 }
 
-export type AdminListType = IActionAdminListBegin | IActionAdminListlSuccess | IActionAdminListError;
+// search admin
+
+export interface IActionAdminSearchBegin extends Action {
+    type: adminListConstants.ADMIN_SEARCH_BEGIN
+}
+
+export interface IActionAdminSearchSuccess extends Action {
+    type: adminListConstants.ADMIN_SEARCH_SUCCESS,
+    //data: AdminModel
+    data: Array<any>
+}
+
+export interface IActionAdminSearchError extends Action {
+    type: adminListConstants.ADMIN_SEARCH_ERROR,
+    error: any
+}
+
+export type AdminListType = IActionAdminListBegin | IActionAdminListlSuccess | IActionAdminListError | IActionAdminSearchBegin | IActionAdminSearchSuccess | IActionAdminSearchError;

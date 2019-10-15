@@ -5,38 +5,50 @@ import PTRView from 'react-native-pull-to-refresh'
 import EmptyListMessage from '../../components/EmptyListMessageComponent'
 import { Container, Content, Root,  Button, Text } from 'native-base'
 import { connect } from 'react-redux'
-import { admins } from '../../actions/admin-list-actions'
+import { admins, searchAdmins } from '../../actions/admin-list-actions'
 import { STYLES } from '../../style';
-import AdminModel from '../../models/admin-model'
-import Array from 'react-native'
+//import AdminModel from '../../models/admin-model'
+//import Array from 'react-native'
 
 
 interface ListProps {
   navigation : any,
   admins: () => void,
   loading: boolean,
-  errr: any,
+  error: any,
   //list: Array<AdminModel>
-  list: Array<any>
+  list: Array<any>,
+
+  searchAdmins: (search: string) => void,
+  loadingSearch: boolean,
+  errorSearch: any,
+  //list: Array<AdminModel>
+  listSearch: Array<any>,
+
 }
 
 interface ListState {
-  showErrorToast: boolean;
-  showSuccessToast: boolean;
+  filterAcvive: boolean,
   adminsList: Array<any>
 }
 
 export class List extends Component<ListProps, ListState> {
+
+  state = {
+    filterAcvive: false,
+    adminsList: []
+  }
   
    componentDidMount = () => {
      console.log('didMouunt')
     this.props.admins()
     console.log('esta es mi super lista' + this.props.list)
    }
-   componentDidUpdate = () => {
-    console.log('qwertyuiop' + JSON.stringify(this.props.list))
 
-   }
+  //  componentDidUpdate = () => {
+  //   console.log('qwertyuiop' + JSON.stringify(this.props.list))
+  //  }
+
   // state = {
   //   adminsList: [
   //     {  
@@ -73,14 +85,28 @@ export class List extends Component<ListProps, ListState> {
   // }
 
   filterList = (text : string) => {
-    if(text.length > 1)
+    if(text.length > 1){
       console.log(text)
-    if(text.length == 0)
+      this.setState({
+        filterAcvive: true
+      });
+      this.props.searchAdmins(text)
+      //this.props.list = this
+    }     
+    if(text.length == 0){
       this.refreshList()
+      this.setState({
+        filterAcvive: false
+      });
+    }    
   }
 
   refreshList = () => {
     console.log('refresh list')
+    this.props.admins()
+    this.setState({
+      filterAcvive: false
+    });
   } 
 
   goToOthersProfile = (name : string) => {
@@ -89,31 +115,32 @@ export class List extends Component<ListProps, ListState> {
   }
 
   renderList = () => {
-    
+    let textMessage = this.state.filterAcvive ?  'No matching Administrators' : 'There are no Admins'
+    let adminsList = this.state.filterAcvive  ? this.props.listSearch : this.props.list
 
-    // if (this.state.adminsList.length == 0) {
-    //   return (
-    //     <EmptyListMessage
-    //       text = {'There are no Admins'}
-    //     />
-    //   )
-    // }
-    // const list = this.state.adminsList.map( p => {
-    //   return (
-    //     <ProfileCardComponent
-    //       id = { p.id }
-    //       first_name = { p.first_name }
-    //       last_name ={ p.last_name }
-    //       number = { p.number }
-    //       type =  {p.type }
-    //       role = { p.role }
-    //       profile_picture = { p.profile_picture }
-    //       last_signed = { p.last_signed }
-    //       onClick = {() => this.goToOthersProfile(p.first_name) }
-    //     />
-    //   );
-    // });
-    // return list;
+    if (adminsList.length == 0) {
+      return (
+        <EmptyListMessage
+          text = {textMessage}
+        />
+      )
+    }
+    const list = adminsList.map( p => {
+      return (
+        <ProfileCardComponent
+          id = { p.id }
+          first_name = { p.first_name }
+          last_name ={ p.last_name }
+          number = { p.numberSponsees }
+          type =  'sponsees'
+          role = 'admin'
+          profile_picture = { p.profile_picture }
+          last_signed = { p.last_signed }
+          onClick = {() => this.goToOthersProfile(p.first_name) }
+        />
+      );
+    });
+    return list;
   }
 
   render() {
@@ -131,8 +158,7 @@ export class List extends Component<ListProps, ListState> {
               </Text>
             </Button>
             <Text>{JSON.stringify(this.props.list)}</Text>
-            {/* <Text> {this.props.list}</Text>
-            {this.renderList()} */}
+            {this.renderList()}
             </Content>
           </Container>
         </Root>
@@ -141,19 +167,22 @@ export class List extends Component<ListProps, ListState> {
   }
 }
 
-
-
 const mapStateToProps = (state: any) => {
   console.log(state)
   return {
       loading: state.adminListReducer.loading,
       list: state.adminListReducer.example,
-      error: state.adminListReducer.error
+      error: state.adminListReducer.error,
+
+      loadingSearch: state.adminSearchReducer.loading,
+      listSearch: state.adminSearchReducer.example,
+      errorSearch: state.adminSearchReducer.error
   }
 }
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
+    searchAdmins: ( search: string) => dispatch(searchAdmins(search)),
     admins: () => dispatch(admins())
   }
 }

@@ -1,10 +1,10 @@
 import axios from 'axios';
 import ENV from 'react-native-config';
 
-const getAllAdmins = () => {
+const getAllTeacher = () => {
     console.log('API')
-    //return axios.get(`${ENV.API_URL}/admin`)
-    return axios.get('http://api.tvmaze.com/shows/1') // //Ruta de admins
+    //return axios.get(`${ENV.API_URL}/admin`)   
+    return axios.get('http://api.tvmaze.com/shows/1') //Ruta de teachers
         .then(response => {
             console.log(response)
             return response;           
@@ -17,11 +17,11 @@ const getAllAdmins = () => {
         })
 }
 
-export const getAdmins = {
-    getAllAdmins
+export const getTeacher = {
+    getAllTeacher
 }
 
-const searchAdmins = (search: string) => {
+const searchTeachers = (search: string) => {
     console.log('API')
     //return axios.get(`${ENV.API_URL}/admin-search/:search`)
     return axios.get('http://api.tvmaze.com/shows/1') // //Ruta de admins
@@ -37,6 +37,6 @@ const searchAdmins = (search: string) => {
         })
 }
 
-export const searchAdmin = {
-    searchAdmins
+export const searchTeacher = {
+    searchTeachers
 }
